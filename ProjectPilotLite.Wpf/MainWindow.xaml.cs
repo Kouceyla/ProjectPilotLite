@@ -18,9 +18,11 @@ public partial class MainWindow : Window
         DataContext = _viewModel;
 
         DashboardTab.Content = new DashboardView();
-        
-        var httpClient = new HttpClient(); 
-        var projectsApiService = new ProjectsApiService(httpClient); 
+
+        // BaseAddress indispensable ici : sans elle, toute route relative ("api/projects")
+        // lève "An invalid request URI was provided..." dès le premier appel.
+        var httpClient = new HttpClient { BaseAddress = new Uri("http://localhost:5123") };
+        var projectsApiService = new ProjectsApiService(httpClient);
         var viewModel = new ProjectListViewModel(projectsApiService); 
         ProjectsTab.Content = new ProjectListView(viewModel); 
         // -----------------------------------------------
