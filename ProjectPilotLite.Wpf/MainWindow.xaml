@@ -1,0 +1,24 @@
+<Window x:Class="ProjectPilotLite.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ProjectPilot Lite" Height="600" Width="900">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Projet sélectionné : " VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox Width="260" ItemsSource="{Binding Projets}" DisplayMemberPath="Nom"
+                      SelectedItem="{Binding ProjetSelectionne}"/>
+        </StackPanel>
+
+        <TabControl x:Name="MainTabs" Grid.Row="1">
+            <TabItem Header="Tableau de bord" x:Name="DashboardTab"/>
+            <TabItem Header="Projets" x:Name="ProjectsTab"/>
+            <TabItem Header="Tâches" x:Name="TasksTab"/>
+            <TabItem Header="Livrables" x:Name="DeliverablesTab"/>
+        </TabControl>
+    </Grid>
+</Window>
