@@ -1,3 +1,4 @@
+using System.Net.Http; // <-- L'import indispensable pour le HttpClient
 using System.Windows;
 using ProjectPilotLite.Wpf.Services;
 using ProjectPilotLite.Wpf.ViewModels;
@@ -18,11 +19,11 @@ public partial class MainWindow : Window
 
         DashboardTab.Content = new DashboardView();
         
-        // --- LES 3 LIGNES CORRIGÉES SONT ICI ---
-        var projectsApiService = new ProjectsApiService();
-        var viewModel = new ProjectListViewModel(projectsApiService);
-        ProjectsTab.Content = new ProjectListView(viewModel);
-        // ---------------------------------------
+        var httpClient = new HttpClient(); 
+        var projectsApiService = new ProjectsApiService(httpClient); 
+        var viewModel = new ProjectListViewModel(projectsApiService); 
+        ProjectsTab.Content = new ProjectListView(viewModel); 
+        // -----------------------------------------------
 
         _viewModel.ProjetChange += (_, projet) => RefreshProjectTabs(projet?.Id);
     }
