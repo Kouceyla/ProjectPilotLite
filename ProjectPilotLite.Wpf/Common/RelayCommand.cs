@@ -1,26 +1,42 @@
+using System;
 using System.Windows.Input;
 
-namespace ProjectPilotLite.Wpf.Common;
-
-/// <summary>ICommand générique partagé par tous les ViewModels.</summary>
-public class RelayCommand : ICommand
+namespace ProjectPilotLite.Wpf.Common
 {
-    private readonly Action<object?> _execute;
-    private readonly Predicate<object?>? _canExecute;
-
-    public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
+    /// <summary>ICommand générique réutilisable pour tout le client WPF (MVVM).</summary>
+    public class RelayCommand : ICommand
     {
-        _execute = execute;
-        _canExecute = canExecute;
-    }
+        private readonly Func<Task> _execute;
+        private readonly Func<bool>? _canExecute;
+        private bool _isRunning;
 
-    public bool CanExecute(object? parameter) => _canExecute?.Invoke(parameter) ?? true;
+        public RelayCommand(Func<Task> execute, Func<bool>? canExecute = null)
+        {
+            _execute = execute;
+            _canExecute = canExecute;
+        }
 
-    public void Execute(object? parameter) => _execute(parameter);
+        public event EventHandler? CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
 
-    public event EventHandler? CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
+        public bool CanExecute(object? parameter) => !_isRunning && (_canExecute?.Invoke() ?? true);
+
+        public async void Execute(object? parameter)
+        {
+            _isRunning = true;
+            CommandManager.InvalidateRequerySuggested();
+            try
+            {
+                await _execute();
+            }
+            finally
+            {
+                _isRunning = false;
+                CommandManager.InvalidateRequerySuggested();
+            }
+        }
     }
 }

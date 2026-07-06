@@ -1,0 +1,47 @@
+<UserControl x:Class="ProjectPilotLite.Wpf.Views.ProjectDetailView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:common="clr-namespace:ProjectPilotLite.Wpf.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="600">
+    <UserControl.Resources>
+        <common:NullToVisibilityConverter x:Key="NullToVis"/>
+    </UserControl.Resources>
+    <Grid Margin="16">
+        <StackPanel>
+            <TextBlock Text="Détail du projet" FontSize="20" FontWeight="Bold" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{Binding MessageErreur}" Foreground="Red" Margin="0,0,0,8"
+                       Visibility="{Binding MessageErreur, Converter={StaticResource NullToVis}}"/>
+
+            <StackPanel Visibility="{Binding Projet, Converter={StaticResource NullToVis}}">
+                <TextBlock Text="{Binding Projet.Nom}" FontSize="16" FontWeight="SemiBold"/>
+                <TextBlock Text="{Binding Projet.Description}" TextWrapping="Wrap" Margin="0,4,0,4"/>
+                <TextBlock Margin="0,4,0,4">
+                    <Run Text="Responsable : "/><Run Text="{Binding Projet.Responsable}"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,4">
+                    <Run Text="Du "/><Run Text="{Binding Projet.DateDebut, StringFormat=d}"/>
+                    <Run Text=" au "/><Run Text="{Binding Projet.DateLimite, StringFormat=d}"/>
+                </TextBlock>
+                <TextBlock Margin="0,0,0,8">
+                    <Run Text="Tâches : "/><Run Text="{Binding Projet.NombreTachesTerminees}"/>
+                    <Run Text="/"/><Run Text="{Binding Projet.NombreTaches}"/>
+                    <Run Text=" terminées  —  Livrables : "/><Run Text="{Binding Projet.NombreLivrablesValides}"/>
+                    <Run Text="/"/><Run Text="{Binding Projet.NombreLivrables}"/>
+                    <Run Text=" validés"/>
+                </TextBlock>
+
+                <TextBlock Margin="0,8,0,4" Text="Statut :"/>
+                <ComboBox ItemsSource="{Binding StatutsDisponibles}"
+                          SelectedItem="{Binding StatutSelectionne}"
+                          Width="180" HorizontalAlignment="Left"/>
+                <Button Content="Mettre à jour le statut" Command="{Binding ChangerStatutCommand}"
+                        Margin="0,12,0,0" Padding="8,4" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding MessageConfirmation}" Foreground="Green" Margin="0,8,0,0"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
