@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         DataContext = _viewModel;
 
         DashboardTab.Content = new DashboardView();
-        // TODO Ethan : ProjectsTab.Content = new ProjectsView();
+        ProjectsTab.Content = new ProjectListView();
 
         _viewModel.ProjetChange += (_, projet) => RefreshProjectTabs(projet?.Id);
     }
