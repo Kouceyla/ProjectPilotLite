@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    NB : ce projet cible net8.0-windows (UseWPF) : il ne compile que sous Windows
+    (voir Ceredine). Les écrans Tâches et Livrables ci-dessous sont écrits et prêts,
+    il manque encore App.xaml / MainWindow (le "shell" de navigation, fourni par
+    Ceredine séparément) pour que le point d'entrée de l'application existe.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>ProjectPilotLite.Wpf</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectPilotLite.Core\ProjectPilotLite.Core.csproj" />
+  </ItemGroup>
+
+</Project>
