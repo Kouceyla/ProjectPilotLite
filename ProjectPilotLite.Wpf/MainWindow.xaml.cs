@@ -18,8 +18,11 @@ public partial class MainWindow : Window
 
         DashboardTab.Content = new DashboardView();
         
-        var viewModel = new ProjectListViewModel();
+        // --- LES 3 LIGNES CORRIGÉES SONT ICI ---
+        var projectsApiService = new ProjectsApiService();
+        var viewModel = new ProjectListViewModel(projectsApiService);
         ProjectsTab.Content = new ProjectListView(viewModel);
+        // ---------------------------------------
 
         _viewModel.ProjetChange += (_, projet) => RefreshProjectTabs(projet?.Id);
     }
