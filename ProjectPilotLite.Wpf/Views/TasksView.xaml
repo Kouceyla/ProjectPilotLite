@@ -1,0 +1,55 @@
+<UserControl x:Class="ProjectPilotLite.Wpf.Views.TasksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="480" d:DesignWidth="720">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Tâches du projet" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" />
+
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Taches}"
+                  SelectedItem="{Binding TacheSelectionnee}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  Margin="0,0,0,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Titre" Binding="{Binding Titre}" Width="2*" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="3*" />
+                <DataGridTextColumn Header="Priorité" Binding="{Binding Priorite}" Width="*" />
+                <DataGridTextColumn Header="Statut" Binding="{Binding Statut}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Ajouter une tâche" FontWeight="Bold" Margin="0,0,0,4" />
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                <TextBox Width="180" Margin="0,0,8,0"
+                         Text="{Binding NouveauTitre, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Titre" />
+                <TextBox Width="260" Margin="0,0,8,0"
+                         Text="{Binding NouvelleDescription, UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="Description" />
+                <ComboBox Width="100" Margin="0,0,8,0"
+                          ItemsSource="{Binding Priorites}"
+                          SelectedItem="{Binding NouvellePriorite}" />
+                <Button Content="Ajouter" Command="{Binding AjouterTacheCommand}" Padding="10,3" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Nouveau statut de la tâche sélectionnée :" VerticalAlignment="Center" Margin="0,0,8,0" />
+                <ComboBox Width="120" Margin="0,0,8,0"
+                          ItemsSource="{Binding Statuts}"
+                          SelectedItem="{Binding StatutCible}" />
+                <Button Content="Changer le statut" Command="{Binding ChangerStatutCommand}" Padding="10,3" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
