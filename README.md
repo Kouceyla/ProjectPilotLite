@@ -5,7 +5,7 @@ Projet réalisé dans le cadre de l'évaluation M1 EADL par Ethan, Kouceyla, Cer
 
 ## Prérequis
 
-- SDK .NET 8.0 (`dotnet --version` doit afficher 8.x).
+- SDK .NET 10.0 (`dotnet --version` doit afficher 10.x).
 - Pour le client WPF : un poste **Windows** (WPF ne compile ni ne s'exécute sur macOS/Linux). Sur Mac, seuls les projets `Core` et `Api` peuvent être compilés et lancés.
 - Aucune base de données à installer : SQLite est embarqué (fichier `projectpilot.db` généré automatiquement au premier lancement de l'API).
 
@@ -60,21 +60,29 @@ Le client WPF appelle l'API à l'adresse `http://localhost:5123` par défaut (vo
 ## Fonctionnalités réalisées
 
 - [x] Modèle de données Projets / Tâches / Livrables (Core).
-- [x] API Projets : liste, détail, création, changement de statut (version de base).
+- [x] API Projets : liste, détail, création, changement de statut.
 - [x] API Tâches : liste par projet, ajout, changement de statut.
+- [x] API Livrables : ajout, liste par projet, validation/refus.
+- [x] API Tableau de bord (indicateurs de synthèse).
 - [x] Persistance SQLite via EF Core, avec jeu de données de démonstration.
-- [x] Écrans WPF Tâches (Views + ViewModels, MVVM).
+- [x] Écrans WPF Projets, Tâches, Livrables et Tableau de bord (Views + ViewModels, MVVM).
+- [x] Shell WPF / navigation entre les écrans (MainWindow).
+- [x] Pipeline CI/CD (`.github/workflows/ci.yml`) : build API sur agent Linux, build solution complète (incl. WPF) sur agent Windows.
+- [x] Note de projection cloud (2-3 pages) — voir `docs/ProjectPilotLite_Note_Projection_Cloud.docx`.
 
 ## Éléments non terminés / à faire
 
-- [ ] API + écrans WPF Livrables (Bassma).
-- [ ] Écrans WPF Projets (Ethan).
-- [ ] Tableau de bord (API + écran WPF) — Ceredine.
-- [ ] Shell WPF / navigation entre les écrans (MainWindow) — Ceredine.
-- [ ] Pipeline CI/CD (`.github/workflows/ci.yml`) — Ceredine.
-- [ ] Note de projection cloud (2-3 pages) — Kouceyla.
 - [ ] Capture d'écran du pipeline CI/CD en succès (à ajouter ici une fois disponible).
 
 ## Pipeline CI/CD
 
-_À compléter avec un lien ou une capture d'écran du pipeline en succès une fois celui-ci mis en place par Ceredine._
+Le pipeline (`.github/workflows/ci.yml`) se déclenche sur chaque `push` et `pull_request` vers `main` :
+
+- **build-api** (agent `ubuntu-latest`) : restore, build et publish de l'API.
+- **build-full-solution-windows** (agent `windows-latest`) : restore et build de la solution complète, y compris le client WPF.
+
+_Capture d'écran du pipeline en succès à ajouter ici avant la soutenance._
+
+## Note de projection cloud
+
+Voir `docs/ProjectPilotLite_Note_Projection_Cloud.docx` : hébergement de l'API, migration de SQLite vers une base managée, gestion des secrets, extension du pipeline CI/CD avec déploiement, et risques (disponibilité, sécurité, coûts, sauvegarde).
