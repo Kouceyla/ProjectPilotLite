@@ -1,0 +1,19 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+
+## Visual Studio / Rider
+.vs/
+.idea/
+*.userosscache
+*.sln.docstates
+
+## SQLite database (générée au premier lancement de l'Api)
+*.db
+*.db-shm
+*.db-wal
+
+## macOS
+.DS_Store
