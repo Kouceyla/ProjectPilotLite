@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore (Core + Api)
+        run: dotnet restore ProjectPilotLite.Api/ProjectPilotLite.Api.csproj
+      - name: Build (Core + Api)
+        run: dotnet build ProjectPilotLite.Api/ProjectPilotLite.Api.csproj --no-restore --configuration Release
+      - name: Publish Api
+        run: dotnet publish ProjectPilotLite.Api/ProjectPilotLite.Api.csproj --no-build --configuration Release --output ./publish/api
+
+  build-full-solution-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore full solution
+        run: dotnet restore ProjectPilotLite.sln
+      - name: Build full solution (incl. WPF)
+        run: dotnet build ProjectPilotLite.sln --no-restore --configuration Release
